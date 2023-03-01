@@ -1,8 +1,8 @@
 const express = require('express')
-const {ServiceWeather} = require('./service')
+const { ControllerWeather } = require('./controller')
 
 const app = express()
 
-app.get('',ServiceWeather.getData)
+app.get('/weather/:place',ControllerWeather.getWeather)
 
 module.exports = app
