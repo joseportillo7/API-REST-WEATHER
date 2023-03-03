@@ -1,7 +1,9 @@
 require('dotenv').config()
 
-module.exports = {
+module.exports.Config = {
     port: process.env.PORT,
-    token: process.env.TOKEN,
-    api: process.env.API,
+    tokengeo: process.env.TOKEN_GEOCODING,
+    apigeo: process.env.API_GEOCODING,
+    tokenweather: process.env.TOKEN_WEATHER,
+    apiweather: process.env.API_WEATHER,
 }

@@ -1,7 +1,7 @@
-const {port} = require('./src/config')
+const {Config} = require('./src/config')
 const app = require('./src/weather')
 
 
-app.listen(port, ()=>{
-    console.log(`Servidor escuchando en el puerto http://localhost:${port}`);
+app.listen(Config.port, ()=>{
+    console.log(`Servidor escuchando en el puerto http://localhost:${Config.port}`);
 })

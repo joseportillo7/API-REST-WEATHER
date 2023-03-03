@@ -1,17 +1,30 @@
 const axios = require('axios')
-const {api,token} = require('../config')
+const { Config } = require('../config')
 
-const getData = async(place) =>{
-    const dataweather = await axios.get(`${api}${place}.json?access_token=${token}`)
-    let {data} = dataweather
-    return data.features.map(place => ({
-        id: place.id,
-        name: place.place_name,
-        lng: place.center[0],
-        alt: place.center[1]
-    }))
+const getGeo = async(place) =>{
+    const datageo = await axios.get(`${Config.apigeo}${place}.json?access_token=${Config.tokengeo}`)
+    let {data} = datageo
+
+    let newdata = []
+
+    for(feature of data.features){
+        let weather = await getWeather(feature.center[1], feature.center[0])
+        newdata.push(weather)
+    }
+    return newdata
+}
+
+const getWeather = async(lat = 14.6228,lon=-90.5314)=>{
+    const dataweather = await axios.get(`${Config.apiweather}lat=${lat}&lon=${lon}&appid=${Config.tokenweather}&units=metric`)
+    let { data } = dataweather
+    return {
+        place: data.name,
+        weather_desc: data.weather[0].description,
+        temp_min: data.main.temp_min,
+        temp_max: data.main.temp_max,
+    }
 }
 
 module.exports.ServiceWeather = {
-    getData,
+    getGeo,
 }
