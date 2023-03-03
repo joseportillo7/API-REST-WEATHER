@@ -1,5 +1,11 @@
+const path = require('path')
+const fs = require('fs')
 const axios = require('axios')
 const { Config } = require('../config')
+
+
+const filePath = path.join(__dirname, '../../db/database.json');
+let history = []
 
 const getGeo = async(place) =>{
     const datageo = await axios.get(`${Config.apigeo}${place}.json?access_token=${Config.tokengeo}`)
@@ -11,6 +17,8 @@ const getGeo = async(place) =>{
         let weather = await getWeather(feature.center[1], feature.center[0])
         newdata.push(weather)
     }
+    saveDB(newdata)
+
     return newdata
 }
 
@@ -25,6 +33,26 @@ const getWeather = async(lat = 14.6228,lon=-90.5314)=>{
     }
 }
 
+
+const saveDB = (arr) =>{
+
+    arr.forEach(element =>{
+        history.push(element);
+    })
+
+    const filePath = path.join(__dirname, '../../db/database.json');
+
+    fs.writeFileSync(filePath,JSON.stringify(history))
+}
+
+const getDB = ()=> {
+    const data = fs.readFileSync(filePath, 'utf-8')
+    const obj = JSON.parse(data)
+    return obj
+}
+
+
 module.exports.ServiceWeather = {
     getGeo,
+    getDB,
 }
