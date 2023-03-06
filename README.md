@@ -31,6 +31,15 @@ _How can you use this project_
 **POST HTTP**
 * /weather -> return the specific weather from searched place
 
+Example: This information return from /geocoding/place/izabal
+```
+{
+    "place_name": "Morales, Morales, Izabal, Guatemala",
+    "lng": -88.82438,
+    "alt": 15.500581
+}
+```
+
 
 ## Features
 1. express
